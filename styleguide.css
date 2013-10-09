@@ -1,0 +1,103 @@
+/* defaults */
+body{
+	font-family:'Open Sans','Helvetica',sans-serif;
+	margin-top:65px;
+	padding:10px;
+}
+li{
+	list-style-type:none;
+}
+ul{
+	padding:0;
+	margin:0;
+}
+/* search box */
+#live-search{
+	top:27px;
+	right:8px;
+	position:fixed;
+}
+#live-search input,
+#live-search input.empty:hover{
+	width:150px;
+	border:1px solid #000;
+	background:#000;
+	padding:4px 6px;
+	opacity:1;
+	color:#fff;
+	font-size:0.8em;
+	border-radius:6px;
+	visibility:visible;
+}
+#live-search input.empty{
+	font-weight:300;
+	opacity:0.1;
+	font-style:oblique;
+}
+@media only screen and (max-width: 1000px) {
+	#live-search input.empty{
+		visibility:hidden;
+	}
+}
+#filter-count{
+	font-size:0.7em;
+	top:60px;
+	right:8px;
+	position:fixed;
+}
+#results{
+	display:none;
+}
+/* jump bar */
+#jumps{
+	background:#000;
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	text-align:center;
+	font-weight:300;
+	font-size:0.8em;
+	padding:2px 0;
+	height:1.5em;
+}
+#jumps a{
+	color:#fff;
+	padding:0 2px;
+}
+/* letter divider */
+.divider{
+	background:#4d1979;
+	color:#fff;
+	padding:5px 10px 3px;
+	font-weight:bold;
+	text-align:center;
+	font-size:1.2em;
+}
+/* links */
+a.alt{
+	font-weight:bold;
+	text-decoration:none;
+	color:#4d1979;
+}
+a.bookmark{
+	font-size:0.8em;
+	color:#000;
+}
+/* wrapper */
+#content{
+	max-width:600px;
+	margin:0 auto;
+}
+/* page title */
+h1{
+	text-align:center;
+}
+/* lists inside entries */
+ul ul li{
+	margin-left:20px;
+	list-style-type:square;
+}
+ul ul{
+	margin-top:-1em;
+}
