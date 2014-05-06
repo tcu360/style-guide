@@ -72,19 +72,19 @@ $(document).ready(function () {
 			$('#jumps a').fadeIn();
 		}
 	});
-});
-// show/hide search box
-var prompt = 'Search';
-$("#live-search input").live("blur", function(){
-	if ($(this).val() == ""){
-		$(this).val(prompt);
-		$(this).addClass('empty');
-	}
-}).live("focus", function(){
-	if ($(this).val() == prompt){
-		$(this).val("");
-		$(this).removeClass('empty');
-	}
+	// show/hide search box
+	var prompt = 'Search';
+	$("#live-search input").on("blur", function(){
+		if ($(this).val() == ""){
+			$(this).val(prompt);
+			$(this).addClass('empty');
+		}
+	}).on("focus", function(){
+		if ($(this).val() == prompt){
+			$(this).val("");
+			$(this).removeClass('empty');
+		}
+	});
 });
 // build guide from gdocs spreadsheet
 function buildGuide(data) {
