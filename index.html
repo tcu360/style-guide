@@ -8,7 +8,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/jquery.scrollto.min.js"></script>
-	<script src="/js/styleguide.js"></script>
+	<script src="/js/tabletop.js"></script>
+	<script src="/js/underscore.min.js"></script>
+	<script src="/js/backbone.min.js"></script>
+	<script src="/js/backbone.tabletopSync.js"></script>
+	<script src="/js/style-guide.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
 	<link type="text/css" rel="stylesheet" media="all" href="/css/styleguide.css"/>
 </head> 
 <body> 
@@ -23,9 +28,10 @@
 			<span id="filter-count"></span>
 		</div>
 		<ul id="terms">
+			<div id="entries">
+			</div>
 			<div id="results" class="divider">Search results</li>
 		</ul>
 	</div>
-	<script type="text/javascript" src="https://spreadsheets.google.com/feeds/cells/0AgBobkwxAgsVdHpfSjVFX29aeU92cVBCbGJMVXVyVHc/1/public/values?alt=json&callback=buildGuide"></script>
 </body>
 </html>
