@@ -104,21 +104,21 @@ var app = new(Backbone.Router.extend({
 		Backbone.history.start({pushState: true});
 		lettersView.render();
 		$("body").removeClass("loading");
-		$("#letter-nav").html(lettersView.el);
+		$("#jumps").prepend(lettersView.el);
 	},
 	index: function() {
 		multipleEntriesView.render();
-		$("#entries").html(multipleEntriesView.el);
+		$("#terms").html(multipleEntriesView.el);
 	},
 	letter: function(letter) {
 		multipleEntriesView.filterByLetter(letter);
-		$("#entries").html(multipleEntriesView.el);
+		$("#terms").html(multipleEntriesView.el);
 	},
 	entry: function(entry) {
 		var styleEntry = styleEntries.get(encodeURI(entry));
 		var singleEntryView = new SingleEntryView({model : styleEntry});
 		singleEntryView.render();
-		$("#entries").html(singleEntryView.el);
+		$("#terms").html(singleEntryView.el);
 	}
 }));
 
