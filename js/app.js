@@ -35,7 +35,6 @@ var StyleEntries = Backbone.Collection.extend({
 /* Backbone view for single entries */
 var SingleEntryView = Backbone.View.extend({
 	tagname: 'div',
-	className: 'entry',
 	template: _.template("<p><strong><a href='/entry/<%= id %>'><%= item %></a></strong>: <%= entry %></p>"),
 
 	render: function() {
