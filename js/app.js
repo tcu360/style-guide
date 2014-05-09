@@ -34,7 +34,7 @@ var StyleEntries = Backbone.Collection.extend({
 
 /* Backbone view for single entries */
 var SingleEntryView = Backbone.View.extend({
-	tagname: 'div',
+	tagname: 'li',
 	template: _.template("<p><strong><a href='/entry/<%= id %>'><%= item %></a></strong>: <%= entry %></p>"),
 
 	render: function() {
@@ -64,6 +64,7 @@ var MultipleEntriesView = Backbone.View.extend({
 		this.$el.append(singleEntryView.render().el);
 	},
 	filterByLetter: function(letter) {
+		this.lastLetter = '';
 		this.$el.html('');
 		this.collection.forEach(function(styleEntry) {
 			if(letter.toLowerCase() == styleEntry.get('item').toLowerCase()[0]) {
@@ -97,7 +98,7 @@ var app = new(Backbone.Router.extend({
 	routes: {
 		"" : "index",
 		"letter/:letter" : "letter",
-		"entry/:entry" : "entry"
+		"entry/*entry" : "entry"
 	},
 	launch: function() {
 		Backbone.history.start({pushState: true});
