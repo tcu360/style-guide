@@ -4,6 +4,9 @@ body{
 	margin-top:65px;
 	padding:10px;
 }
+body.loading{
+	opacity: .5;
+}
 li{
 	list-style-type:none;
 }
@@ -68,11 +71,14 @@ ul{
 /* letter divider */
 .divider{
 	background:#4d1979;
-	color:#fff;
 	padding:5px 10px 3px;
 	font-weight:bold;
 	text-align:center;
 	font-size:1.2em;
+}
+.divider a{
+	color: #fff;
+	text-decoration: none;
 }
 /* links */
 a.alt{

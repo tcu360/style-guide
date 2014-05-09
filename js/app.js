@@ -44,9 +44,11 @@ var SingleEntryView = Backbone.View.extend({
 /* Backbone view for multiple entries */
 var MultipleEntriesView = Backbone.View.extend({
 	lastLetter: "",
-	letterBlock: _.template('<li class="divider"><%= letter %></li>'),
+	letterBlock: _.template('<li class="divider"><a href="/letter/<%= letter %>"><%= letter %></a></li>'),
 
 	render: function(){
+		this.lastLetter = '';
+		this.$el.html('');
 		this.collection.forEach(this.renderSingle, this);
 		return this;
 	},
@@ -58,12 +60,21 @@ var MultipleEntriesView = Backbone.View.extend({
 			this.lastLetter = currentLetter;
 		}
 		this.$el.append(singleEntryView.render().el);
-	}
+	},
+	filterByLetter: function(letter) {
+		this.$el.html('');
+		this.collection.forEach(function(styleEntry) {
+			if(letter.toLowerCase() == styleEntry.get('item').toLowerCase()[0]) {
+				this.renderSingle(styleEntry);
+			}
+		}, this);
+	},
 });
 
 /* Backbone views for letters nav */
 var LettersView = Backbone.View.extend({
-	template: _.template('<a href="#"><%= letter %></a>'),
+	template: _.template('<a href="/letter/<%= letter %>"><%= letter %></a>'),
+	tagName: "span",
 
 	render: function(){
 		/* Reduce the collection so we just have an array of letters */
@@ -79,19 +90,48 @@ var LettersView = Backbone.View.extend({
 	}
 });
 
+/* Configure Backbone router */
+var app = new(Backbone.Router.extend({
+	routes: {
+		"" : "index",
+		"letter/:letter" : "letter"
+	},
+	launch: function() {
+		Backbone.history.start({pushState: true});
+		lettersView.render();
+		$("body").removeClass("loading");
+		$("#letter-nav").html(lettersView.el);
+	},
+	index: function() {
+		multipleEntriesView.render();
+		$("#entries").html(multipleEntriesView.el);
+	},
+	letter: function(letter) {
+		multipleEntriesView.filterByLetter(letter);
+		$("#entries").html(multipleEntriesView.el);
+	}
+}));
+
+var styleEntries, multipleEntriesView, lettersView;
 $(function() {
-	/* Pull the entries from Google Spreadsheets */
-	var styleEntries = new StyleEntries();
-	styleEntries.fetch({
-		success: renderAll
+
+	// Use pushState nav on all non-absolute links
+	$(document).delegate("a", "click", function(e) {
+		var href = $(this).attr("href");
+		var protocol = this.protocol + "//";
+		if (href.slice(protocol.length) !== protocol) {
+			e.preventDefault();
+			app.navigate(href, {trigger : true});
+		}
 	});
 
-	/* And render them all */
-	function renderAll() {
-		var multipleEntriesView = new MultipleEntriesView({collection: styleEntries});
-		$("#entries").html(multipleEntriesView.render().el);
-
-		var lettersView = new LettersView({collection: styleEntries});
-		$("#jumps").html(lettersView.render().el);
-	}
+	// Fetch data with Tabletop, then start up the router/app
+	styleEntries = new StyleEntries();
+	styleEntries.fetch({
+		success: function() {
+			multipleEntriesView = new MultipleEntriesView({collection: styleEntries});
+			lettersView = new LettersView({collection: styleEntries});
+			app.launch();
+		}
+	});
 });
