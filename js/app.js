@@ -8,7 +8,10 @@ var storage = Tabletop.init({
 
 /* Setup the Backbone models and specify use of Backbone.tabletopSync */
 var StyleEntry = Backbone.Model.extend({
-	idAttribute: 'item',
+	constructor: function(attributes, options) {
+		attributes.id = encodeURI(attributes.item).toLowerCase();
+		Backbone.Model.apply(this, arguments);
+	},
 	tabletop: {
 		instance: storage,
 		sheet: spreadsheet_sheet
@@ -19,8 +22,8 @@ var StyleEntry = Backbone.Model.extend({
 /* Setup the Backbone collection and again specify use of Backbone.tabletopSync */
 var StyleEntries = Backbone.Collection.extend({
 	model: StyleEntry,
-	comparator: function(entry) {
-		return entry.get('item').toLowerCase();
+	comparator: function(styleEntry) {
+		return styleEntry.get('item').toLowerCase();
 	},
 	tabletop: {
 		instance: storage,
@@ -33,7 +36,7 @@ var StyleEntries = Backbone.Collection.extend({
 var SingleEntryView = Backbone.View.extend({
 	tagname: 'div',
 	className: 'entry',
-	template: _.template("<p><strong><%= item %></strong>: <%= entry %></p>"),
+	template: _.template("<p><strong><a href='/entry/<%= id %>'><%= item %></a></strong>: <%= entry %></p>"),
 
 	render: function() {
 		this.$el.html(this.template(this.model.toJSON()));
@@ -94,7 +97,8 @@ var LettersView = Backbone.View.extend({
 var app = new(Backbone.Router.extend({
 	routes: {
 		"" : "index",
-		"letter/:letter" : "letter"
+		"letter/:letter" : "letter",
+		"entry/:entry" : "entry"
 	},
 	launch: function() {
 		Backbone.history.start({pushState: true});
@@ -109,6 +113,12 @@ var app = new(Backbone.Router.extend({
 	letter: function(letter) {
 		multipleEntriesView.filterByLetter(letter);
 		$("#entries").html(multipleEntriesView.el);
+	},
+	entry: function(entry) {
+		var styleEntry = styleEntries.get(encodeURI(entry));
+		var singleEntryView = new SingleEntryView({model : styleEntry});
+		singleEntryView.render();
+		$("#entries").html(singleEntryView.el);
 	}
 }));
 

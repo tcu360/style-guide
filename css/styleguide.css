@@ -95,6 +95,9 @@ a.bookmark{
 	max-width:600px;
 	margin:0 auto;
 }
+.entry a{
+	color: #4d1979;
+}
 /* page title */
 h1{
 	text-align:center;
