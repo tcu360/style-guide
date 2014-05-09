@@ -6,6 +6,5 @@ Dependencies
 -----
 * [Backbone.js](https://github.com/jashkenas/backbone) v1.1.2
 * [jQuery](https://github.com/jquery/jquery) v2.1.1
-* [jQuery ScrollTo](https://github.com/flesler/jquery.scrollTo) v1.4.3.1
 * [Tabletop.js](https://github.com/jsoma/tabletop) v1.3.4
 * [Underscore.js](https://github.com/jashkenas/underscore) v1.6.0
