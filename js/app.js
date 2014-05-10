@@ -35,7 +35,10 @@ var StyleEntries = Backbone.Collection.extend({
 /* Backbone view for single entries */
 var SingleEntryView = Backbone.View.extend({
 	tagname: 'li',
-	template: _.template("<p><strong><a href='/entry/<%= id %>'><%= item %></a></strong>: <%= entry %></p>"),
+	initialize: function() {
+		var source = $("#entry-template").html();
+		this.template = Handlebars.compile(source);
+	},
 
 	render: function() {
 		this.$el.html(this.template(this.model.toJSON()));
@@ -46,8 +49,11 @@ var SingleEntryView = Backbone.View.extend({
 /* Backbone view for multiple entries */
 var MultipleEntriesView = Backbone.View.extend({
 	lastLetter: "",
-	letterBlock: _.template('<li class="divider"><a href="/letter/<%= letter %>"><%= letter %></a></li>'),
 
+	initialize: function() {
+		var source = $('#divider-template').html();
+		this.letterBlock = Handlebars.compile(source);
+	},
 	render: function(){
 		this.lastLetter = '';
 		this.$el.html('');
@@ -76,9 +82,12 @@ var MultipleEntriesView = Backbone.View.extend({
 
 /* Backbone views for letters nav */
 var LettersView = Backbone.View.extend({
-	template: _.template('<a href="/letter/<%= letter %>"><%= letter %></a>'),
 	tagName: "span",
 
+	initialize: function() {
+		var source = $('#letter-template').html();
+		this.template = Handlebars.compile(source);
+	},
 	render: function(){
 		/* Reduce the collection so we just have an array of letters */
 		var letters = [], lastLetter;

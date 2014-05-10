@@ -12,6 +12,7 @@
 	<nav id="jumps">
 		<a href="/">All</a>
 		<a href="#">Search</a>
+		<script id="letter-template" type="text/x-handlebars-template"><a href="/letter/{{letter}}">{{letter}}</a></script>
 	</nav>
 	<div id="entries">
 		<h1>TCU 360 style guide</h1>
@@ -19,9 +20,16 @@
 			<input type="text" class="empty" id="filter" placeholder="Search" />
 			<span id="filter-count"></span>
 		</div>
+		<script id="divider-template" type="text/x-handlebars-template">
+			<li class="divider"><a href="/letter/{{letter}}">{{letter}}</a></li>
+		</script>
+		<script id="entry-template" type="text/x-handlebars-template">
+			<p><a href="/entry/{{id}}"><strong>{{item}}</strong></a>{{#if entry}}: {{{entry}}}{{/if}}</p>
+		</script>
 		<ul id="terms"></ul>
 	</div>
 	<script src="/js/jquery.min.js"></script>
+	<script src="/js/handlebars.min.js"></script>
 	<script src="/js/tabletop.js"></script>
 	<script src="/js/underscore.min.js"></script>
 	<script src="/js/backbone.min.js"></script>
