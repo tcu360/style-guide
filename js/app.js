@@ -38,6 +38,9 @@ var SingleEntryView = Backbone.View.extend({
 	initialize: function() {
 		var source = $("#entry-template").html();
 		this.template = Handlebars.compile(source);
+		Handlebars.registerHelper('seeAlsoUrl', function(seeAlso) {
+			return "/entry/" + encodeURI(seeAlso).toLowerCase();
+		});
 	},
 
 	render: function() {

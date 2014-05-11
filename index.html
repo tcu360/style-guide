@@ -24,7 +24,7 @@
 			<li class="divider"><a href="/letter/{{letter}}">{{letter}}</a></li>
 		</script>
 		<script id="entry-template" type="text/x-handlebars-template">
-			<p><a href="/entry/{{id}}"><strong>{{item}}</strong></a>{{#if entry}}: {{{entry}}}{{/if}}</p>
+			<p><a href="/entry/{{id}}"><strong>{{item}}</strong></a>{{#if entry}}: {{{entry}}}{{/if}}{{#if seealso}} <strong>see <a href="{{seeAlsoUrl seealso}}">{{seealso}}</a></strong>{{/if}}</p>
 		</script>
 		<ul id="terms"></ul>
 	</div>
