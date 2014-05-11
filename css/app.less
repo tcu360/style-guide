@@ -54,24 +54,26 @@ ul{
 	top:27px;
 	right:8px;
 	position:fixed;
-	input,
-	input.empty:hover{
+	input{
 		width:150px;
+		font-weight:300;
+		opacity:0.2;
 		border:1px solid #000;
-		background:#000;
+		font-style:oblique;
 		padding:4px 6px;
-		opacity:1;
-		color:#fff;
 		font-size:0.8em;
 		border-radius:6px;
 		visibility:visible;
-	}
-	input.empty{
-		font-weight:300;
-		opacity:0.1;
-		font-style:oblique;
+		background:#000;
+		color: #fff;
+		transition: opacity .25s;
 		@media only screen and (max-width: 1000px) {
 			visibility:hidden;
+		}
+		&:hover,
+		&:focus {
+			opacity:1;
+			outline:none;
 		}
 	}
 }

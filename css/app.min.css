@@ -50,27 +50,29 @@ ul li {
   right: 8px;
   position: fixed;
 }
-#live-search input,
-#live-search input.empty:hover {
+#live-search input {
   width: 150px;
+  font-weight: 300;
+  opacity: 0.2;
   border: 1px solid #000;
-  background: #000;
+  font-style: oblique;
   padding: 4px 6px;
-  opacity: 1;
-  color: #fff;
   font-size: 0.8em;
   border-radius: 6px;
   visibility: visible;
-}
-#live-search input.empty {
-  font-weight: 300;
-  opacity: 0.1;
-  font-style: oblique;
+  background: #000;
+  color: #fff;
+  transition: opacity .25s;
 }
 @media only screen and (max-width: 1000px) {
-  #live-search input.empty {
+  #live-search input {
     visibility: hidden;
   }
+}
+#live-search input:hover,
+#live-search input:focus {
+  opacity: 1;
+  outline: none;
 }
 #filter-count {
   font-size: 0.7em;

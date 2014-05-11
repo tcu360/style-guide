@@ -1,3 +1,5 @@
+/*global Tabletop:false, Backbone:false, _:false, Handlebars: false*/
+
 /* Initialize Tabletop so it can be fed to Backbone */
 var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?key=0AgBobkwxAgsVdHpfSjVFX29aeU92cVBCbGJMVXVyVHc&output=html';
 var spreadsheet_sheet = 'Sheet1';
@@ -58,29 +60,40 @@ var MultipleEntriesView = Backbone.View.extend({
 		this.letterBlock = Handlebars.compile(source);
 	},
 	render: function(){
-		this.lastLetter = '';
-		this.$el.html('');
+		this.empty();
 		this.collection.forEach(this.renderSingle, this);
 		return this;
 	},
 	renderSingle: function(styleEntry){
 		var singleEntryView = new SingleEntryView({model: styleEntry});
 		var currentLetter = styleEntry.get('item').toUpperCase()[0];
-		if(this.lastLetter != currentLetter) {
+		if(this.lastLetter !== currentLetter) {
 			this.$el.append(this.letterBlock({letter: currentLetter}));
 			this.lastLetter = currentLetter;
 		}
 		this.$el.append(singleEntryView.render().el);
 	},
-	filterByLetter: function(letter) {
+	empty: function(){
 		this.lastLetter = '';
 		this.$el.html('');
+	},
+	filterByLetter: function(letter) {
+		this.empty();
 		this.collection.forEach(function(styleEntry) {
-			if(letter.toLowerCase() == styleEntry.get('item').toLowerCase()[0]) {
+			if(letter.toLowerCase() === styleEntry.get('item').toLowerCase()[0]) {
 				this.renderSingle(styleEntry);
 			}
 		}, this);
 	},
+	filterByString: function(search) {
+		this.empty();
+		this.collection.forEach(function(styleEntry) {
+			search = search.toLowerCase();
+			if(~styleEntry.get('item').toLowerCase().indexOf(search) || ~styleEntry.get('entry').toLowerCase().indexOf(search)){
+				this.renderSingle(styleEntry);
+			}
+		}, this);
+	}
 });
 
 /* Backbone views for letters nav */
@@ -93,10 +106,10 @@ var LettersView = Backbone.View.extend({
 	},
 	render: function(){
 		/* Reduce the collection so we just have an array of letters */
-		var letters = [], lastLetter;
+		var lastLetter;
 		this.collection.forEach(function(styleEntry, currentLetter) {
 			var currentLetter = styleEntry.get('item').toUpperCase()[0];
-			if(lastLetter != currentLetter) {
+			if(lastLetter !== currentLetter) {
 				lastLetter = currentLetter;
 				this.$el.append(this.template({letter: currentLetter}));
 			}
@@ -110,7 +123,14 @@ var app = new(Backbone.Router.extend({
 	routes: {
 		"" : "index",
 		"letter/:letter" : "letter",
-		"entry/*entry" : "entry"
+		"entry/*entry" : "entry",
+		"search/*search" : "search"
+	},
+	initialize: function() {
+		$("#filter").on("keyup", this, _.debounce(function(e) {
+			var searchUrl = "search/" + encodeURI($(this).val());
+			e.data.navigate(searchUrl, {trigger: true});
+		}, 350));
 	},
 	launch: function() {
 		Backbone.history.start({pushState: true});
@@ -131,8 +151,17 @@ var app = new(Backbone.Router.extend({
 		var singleEntryView = new SingleEntryView({model : styleEntry});
 		singleEntryView.render();
 		$("#terms").html(singleEntryView.el);
+	},
+	search: function(search) {
+		if(search) {
+			multipleEntriesView.filterByString(search);
+			$("#terms").html(multipleEntriesView.el);
+		}
+		else {
+			this.navigate("", {trigger: true});
+		}
 	}
-}));
+}))();
 
 var styleEntries, multipleEntriesView, lettersView;
 $(function() {
