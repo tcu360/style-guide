@@ -1,6 +1,6 @@
 TCU 360 style guide
 =====
-This app generates TCU 360's style guide at style.tcu360.com. It uses tabletop.js and backbone.js to pull down and render the style entries from a Google Spreadsheet.
+This app generates TCU 360's style guide at [style.tcu360.com](http://style.tcu360.com). It uses Tabletop.js and Backbone.js to pull down and render the style entries from a Google Spreadsheet.
 
 Dependencies
 -----
